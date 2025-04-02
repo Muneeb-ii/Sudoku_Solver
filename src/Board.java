@@ -14,7 +14,7 @@ public class Board {
     /**
      * Constructor for Board: creates a 9x9 board of cells and initializes them with value 0
      */
-    public void Board(){
+    public Board(){
         board = new Cell[9][9]; // 9x9 board
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -69,14 +69,8 @@ public class Board {
             // start a while loop that loops while line isn't null
             int j = 0;
             while(line != null){
-                // print line
-                System.out.println( line );
                 // assign to an array of Strings the result of splitting the line up by spaces (line.split("[ ]+"))
                 String[] arr = line.split( "[ ]+" );
-                // let's see what this array holds: 
-                System.out.println("the first item in arr: " + arr[0] + ", the second item in arr: " + arr[1]);
-                // print the size of the String array (you can use .length)
-                System.out.println( arr.length );
                 // use the line to set various Cells of this Board accordingly
                 for(int i = 0; i < arr.length; i++) {
                     // set the value of the cell at row j and column i to the value in arr[i]
@@ -104,11 +98,26 @@ public class Board {
      * Prints the board to the console
      */
     public String toString() {
+        String stringRep = "";
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                System.out.print(board[i][j].getValue() + " ");
+                stringRep = stringRep + board[i][j].getValue() + " ";
             }
-            System.out.println();
+            stringRep = stringRep + "\n";
         }
+        return stringRep;
+    }
+
+    public static void main (String[] args) {
+
+        // Check if the user provided a filename as an argument
+        if (args.length != 1) {
+            System.out.println("Usage: java Board <filename>");
+            return;
+        }
+        Board newBoard = new Board();
+        newBoard.read(args[0]);
+        System.out.println(newBoard);
+    }
 
 }
