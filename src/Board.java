@@ -20,4 +20,13 @@ public class Board {
             }
         }
     }
+
+    /**
+     * Returns the cell at the given row and column
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     */
+    public Cell get(int row, int col){
+        return board[row][col];
+    }
 }
