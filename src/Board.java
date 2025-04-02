@@ -29,4 +29,25 @@ public class Board {
     public Cell get(int row, int col){
         return board[row][col];
     }
+
+    /**
+     * Sets the value of the cell at the given row and column
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     * @param value the value to set
+     */
+    public void set(int row, int col, int value){
+        board[row][col].setValue(value);
+    }
+
+    /**
+     * Sets the locked property of the cell at the given row and column
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     * @param locked whether the cell is locked or not
+     */
+    public void set(int row, int col, boolean locked){
+        board[row][col].setLocked(locked);
+    }
+
 }
