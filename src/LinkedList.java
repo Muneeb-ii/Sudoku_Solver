@@ -6,7 +6,7 @@ import java.util.Iterator;
  * Purpose of the class: Implementation of a Linked List
  */
 
-public class LinkedList<T> implements Iterable<T>, Queue<T>{
+public class LinkedList<T> implements Iterable<T>, Stack<T>, Queue<T>{
 
     private Node<T> head;
     private Node<T> tail;
@@ -156,6 +156,14 @@ public class LinkedList<T> implements Iterable<T>, Queue<T>{
      * @return the item at the front of the linked list
      */
     public T poll(){
+        return remove();
+    }
+
+    /**
+     * Returns and removes the item at the top of the stack
+     * @return the item at the top of the stack
+     */
+    public T pop(){
         return remove();
     }
 
