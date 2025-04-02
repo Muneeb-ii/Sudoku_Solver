@@ -168,6 +168,14 @@ public class LinkedList<T> implements Iterable<T>, Stack<T>, Queue<T>{
     }
 
     /**
+     * Adds the given item to the top of the stack
+     * @param item the item to be added to the top of the stack
+     */
+    public void push(T item){
+        add(item);
+    }
+
+    /**
      * Returns a string representation of the linked list
      * 
      * @return a string representation of the linked list
