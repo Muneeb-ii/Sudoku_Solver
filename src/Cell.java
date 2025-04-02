@@ -38,4 +38,57 @@ public class Cell{
         this.value = value;
         this.locked = locked;
     }
+
+    /**
+     * Returns the row index of the cell
+     * @return the row index of the cell
+     */
+    public int getRow(){
+        return rowIndex;
+    }
+
+    /**
+     * Returns the column index of the cell
+     * @return the column index of the cell
+     */
+    public int getCol(){
+        return columnIndex;
+    }
+
+    /**
+     * Returns the value of the cell
+     * @return the value of the cell
+     */
+    public int getValue(){
+        return value;
+    }
+
+    /**
+     * Sets the value of the cell if it is not locked
+     * @param newVal the new value of the cell
+     */
+    public void setValue(int newVal){
+        if(!locked){
+            this.value = newVal;
+        }
+        else{
+            System.out.println("Cell is locked. Cannot change value.");
+        }
+    }
+
+    /**
+     * Returns whether the cell is locked or not
+     * @return true if the cell is locked, false otherwise
+     */
+    public boolean isLocked(){
+        return locked;
+    }
+
+    /**
+     * Sets the locked status of the cell
+     * @param locked the new locked status of the cell
+     */
+    public void setLocked(boolean locked){
+        this.locked = locked;
+    }
 }
