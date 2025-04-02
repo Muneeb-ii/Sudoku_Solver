@@ -5,6 +5,10 @@
  * 
  */
 
+import java.io.*;
+import java.io.FileReader;
+import java.io.BufferedReader;
+
 public class Board {
     
     private Cell[][] board;
