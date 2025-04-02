@@ -91,4 +91,12 @@ public class Cell{
     public void setLocked(boolean locked){
         this.locked = locked;
     }
+
+    /**
+     * Returns a string representation of the cell
+     * @return a string representation of the cell
+     */
+    public String toString(){
+        return "Cell [rowIndex=" + rowIndex + ", columnIndex=" + columnIndex + ", value=" + value + ", locked=" + locked + "]";
+    }
 }
