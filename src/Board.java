@@ -96,8 +96,19 @@ public class Board {
         catch(IOException ex) {
           System.out.println("Board.read():: error reading file " + filename);
         }
-        
+
         return false;
     }
+
+    /**
+     * Prints the board to the console
+     */
+    public String toString() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print(board[i][j].getValue() + " ");
+            }
+            System.out.println();
+        }
 
 }
