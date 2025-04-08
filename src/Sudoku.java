@@ -101,6 +101,7 @@ public class Sudoku {
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
+                ld.repaint();
             }
             Cell next = findNextCell();
 
