@@ -25,6 +25,7 @@ public class Board {
                 board[i][j] = new Cell(i, j, 0); // Initialize cells with value 0
             }
         }
+        finished = false; // Initialize finished to false
     }
 
     /**
@@ -109,6 +110,14 @@ public class Board {
     public void set(int row, int col, int value, boolean locked){
         board[row][col].setValue(value);
         board[row][col].setLocked(locked);
+    }
+
+    /**
+     * Sets the finished property of the board
+     * @param finished whether the board is finished or not
+     */
+    public void isFinished(boolean finished){
+        this.finished = finished;
     }
 
     /**
