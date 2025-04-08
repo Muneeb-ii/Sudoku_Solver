@@ -119,7 +119,7 @@ public class Board {
         }
         return stringRep;
     }
-    
+
     /**
      * Returns the number of columns in the board
      * @return the number of columns in the board
@@ -134,6 +134,16 @@ public class Board {
      */
     public int getRows(){
         return board.length;
+    }
+
+    /**
+     * Returns whether the cell at the given row and column is locked or not
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     * @return true if the cell is locked, false otherwise
+     */
+    public boolean isLockecd(int row, int col){
+        return board[row][col].isLocked();
     }
 
 }
