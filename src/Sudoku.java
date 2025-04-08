@@ -73,7 +73,66 @@ public class Sudoku {
                 }
             }
         }
+        board.setFinished(true);
         return null; // No empty cells found
+    }
+
+    /**
+     * Finds the next cell to fill using the minimum remaining values heuristic.
+     * It looks for the empty cell (value 0) that has the fewest valid candidate values.
+     * If a valid candidate is found using findNextValue, the cell is updated and returned.
+     * If no valid candidate exists for that cell, returns null.
+     *
+     * @return the cell with the next value or null if no valid cell is found.
+     */
+    public Cell findNextCell2() {
+        Cell bestCell = null;
+        int bestCandidateCount = 10; // since maximum candidates is 9
+        
+        // Loop over all cells
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board.value(i, j) == 0) {  // For each empty cell
+                    int candidateCount = countCandidates(i, j);
+                    if (candidateCount < bestCandidateCount) {
+                        bestCandidateCount = candidateCount;
+                        bestCell = board.get(i, j);
+                    }
+                }
+            }
+        }
+        
+        // If no empty cell is found, return null
+        if (bestCell == null) {
+            return null;
+        }
+        
+        // Try to get the next valid candidate for this cell.
+        int candidate = findNextValue(bestCell);
+        if (candidate != 0) {
+            board.set(bestCell.getRow(), bestCell.getCol(), candidate);
+            return board.get(bestCell.getRow(), bestCell.getCol());
+        }
+        
+        return null;
+    }
+
+    /**
+     * Helper method to count the number of valid candidates for the cell at (row, col).
+     * Iterates through values 1 to 9 and checks if they are valid at this position.
+     *
+     * @param row The row index of the cell.
+     * @param col The column index of the cell.
+     * @return The count of candidate values.
+     */
+    private int countCandidates(int row, int col) {
+        int count = 0;
+        for (int i = 1; i <= 9; i++) {
+            if (board.validValue(row, col, i)) {
+                count++;
+            }
+        }
+        return count;
     }
     
     /**
@@ -92,7 +151,6 @@ public class Sudoku {
                 }
             }
         }
-
         while (stack.size()<unspecifiedCells){
             // Control the speed of visualization
             if (delay > 0) {
@@ -118,20 +176,72 @@ public class Sudoku {
             }
 
             if(next==null){
-                board.isFinished(true);
+                board.setFinished(true);
                 return false;
             }
             else {
                 stack.push(next);
             }
         }
+        board.setFinished(true);
+        return true;
+    }
 
-        board.isFinished(true);
+    /**
+     * Solves the Sudoku puzzle using backtracking
+     * @return true if the puzzle is solved, false otherwise
+     */
+    public boolean solve2(){
+        LinkedList<Cell> stack = new LinkedList<Cell>();
+        int unspecifiedCells=0;
+
+        // Count the number of unspecified cells
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board.value(i, j) == 0) {
+                    unspecifiedCells++;
+                }
+            }
+        }
+        while (stack.size()<unspecifiedCells){
+            // Control the speed of visualization
+            if (delay > 0) {
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+                ld.repaint();
+            }
+            Cell next = findNextCell2();
+
+            while (next==null && stack.size()>0){
+                Cell previous = stack.pop();
+                // Update the cell's value by trying the next candidate
+                int newValue = findNextValue(previous);
+                // Update the cell accordingly
+                previous.setValue(newValue);
+                if (previous.getValue()!=0){
+                    next = previous;
+                }
+
+            }
+
+            if(next==null){
+                board.setFinished(true);
+                return false;
+            }
+            else {
+                stack.push(next);
+            }
+        }
+        board.setFinished(true);
         return true;
     }
 
     public static void main(String[] args) {
         Sudoku game =  new Sudoku(0,10);
+        System.out.println("Initial State: \n" + game.board.toString());
         game.solve();
         System.out.println("Final (Solved) State: \n" + game.board.toString());
 
