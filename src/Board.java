@@ -116,8 +116,16 @@ public class Board {
      * Sets the finished property of the board
      * @param finished whether the board is finished or not
      */
-    public void isFinished(boolean finished){
+    public void setFinished(boolean finished){
         this.finished = finished;
+    }
+
+    /**
+     * Returns whether the board is finished or not
+     * @return true if the board is finished, false otherwise
+     */
+    public boolean getFinished(){
+        return finished;
     }
 
     /**
