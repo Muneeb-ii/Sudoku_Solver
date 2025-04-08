@@ -6,6 +6,7 @@
  */
 
 import java.io.*;
+import java.util.Random;
 
 public class Board {
     
@@ -32,6 +33,38 @@ public class Board {
         this(); 
         // Read the file and set the values of the cells
         read(filename); 
+    }
+
+    /**
+     * Auxiliary Constructor for Board: creates a 9x9 board of cells and initializes them with value 0 
+     * and randomly locks numLocked cells
+     * @param numLocked the number of cells to lock
+     */
+    public Board(int numLocked){
+        // Call the default constructor to initialize the board
+        this(); 
+
+        Random rand = new Random();
+
+        // Randomly lock numLocked cells
+        for (int i = 0; i < numLocked; i++) {
+            int row = rand.nextInt(9);
+            int col = rand.nextInt(9);
+            
+            // Check if the cell is already locked
+            while (board[row][col].isLocked()) {
+                row = rand.nextInt(9);
+                col = rand.nextInt(9);
+            }
+            
+            // Generate a random value between 1 and 9
+            int value = rand.nextInt(8)+1;
+            while (!validValue(row, col, value)) {
+                value = rand.nextInt(8)+1;
+            }
+            board[row][col].setValue(value);
+            board[row][col].setLocked(true);
+        }
     }
 
     /**
