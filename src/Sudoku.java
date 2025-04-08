@@ -40,12 +40,13 @@ public class Sudoku {
      * @param col the column index of the cell
      * @return the value of the cell if it is valid, 0 otherwise
      */
-    public int findNextValue(int row, int col) {
-        for (int i = board.getValue(row, col)+1; i <= 9; i++) {
-            if (board.validValue(row, col, i)) {
+    public int findNextValue(Cell cell) {
+        for (int i = cell.getValue()+1; i <= 9; i++) {
+            if (board.validValue(cell.getCol(), cell.getRow(), i)) {
                 return i;
             }
         }
         return 0;
     }
 }
+
