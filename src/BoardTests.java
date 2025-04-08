@@ -7,7 +7,7 @@
 public class BoardTests {
     
     public static void main(String[] args) {
-        System.out.println("All Board tests passed! Score: " + testBoard() + "/11");
+        System.out.println("All Board tests passed! Score: " + testBoard() + "/12");
     }
 
     public static int testBoard() {
@@ -65,6 +65,11 @@ public class BoardTests {
         assert validBoard.validSolution() == true : "validSolution should return true for a valid board";
         Board invalidBoard = new Board("board1.txt");
         assert invalidBoard.validSolution() == false : "validSolution should return false for an invalid board";
+        score += 1;
+
+        // Test auxiliary constructor
+        Board auxBoard = new Board(5);
+        assert auxBoard.numLocked() == 5 : "Auxiliary board should have 5 locked cells";
         score += 1;
 
         return score;
