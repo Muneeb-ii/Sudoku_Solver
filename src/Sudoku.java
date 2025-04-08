@@ -32,4 +32,20 @@ public class Sudoku {
         this.delay = delay;
         display = new LandscapeDisplay(board);
     }
+
+    /**
+     * Solves the Sudoku puzzle using backtracking
+     * @return true if the puzzle is solved, false otherwise
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     * @return the value of the cell if it is valid, 0 otherwise
+     */
+    public int findNextValue(int row, int col) {
+        for (int i = board.getValue(row, col)+1; i <= 9; i++) {
+            if (board.validValue(row, col, i)) {
+                return i;
+            }
+        }
+        return 0;
+    }
 }
