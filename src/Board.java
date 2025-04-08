@@ -146,4 +146,20 @@ public class Board {
         return board[row][col].isLocked();
     }
 
+    /**
+     * Returns the number of locked cells in the board
+     * @return the number of locked cells in the board
+     */
+    public int numLocked(){
+        int count = 0;
+        for(int i = 0; i<9; i++){
+            for (int j = 0; j<9; j++){
+                if(board[i][j].isLocked()){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
 }
