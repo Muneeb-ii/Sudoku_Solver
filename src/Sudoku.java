@@ -1,7 +1,7 @@
 /**
  * Author: Muneeb Azfar Nafees
  * 
- * Purpose of the class:
+ * Purpose of the class: Solve a Sudoku puzzle using backtracking algorithm
  * 
  */
 

@@ -1,7 +1,7 @@
 /**
  * Author: Muneeb Azfar Nafees
  * 
- * Purpose of class:
+ * Purpose of class: Represents a cell in the Sudoku board
  * 
  */
 
