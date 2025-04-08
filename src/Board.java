@@ -225,7 +225,25 @@ public class Board {
                     return false;
                 }
             }
-}
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the board is a valid solution
+     * @return true if the board is a valid solution, false otherwise
+     */
+    public boolean validSolution(){
+        // Check if all values are valid
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                int value = board[i][j].getValue();
+                if (!validValue(i, j, value)) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
@@ -244,55 +262,20 @@ public class Board {
      */
 
     public static void main(String[] args) {
-        int score = 0;
 
-        // Test Board constructor and getRows, getCols
-        Board board = new Board();
-        assert board.getRows() == 9 : "getRows should return 9";
-        assert board.getCols() == 9 : "getCols should return 9";
-        score += 2;
-
-        // Test default values in board
-        for (int i = 0; i < board.getRows(); i++) {
-            for (int j = 0; j < board.getCols(); j++) {
-                assert board.get(i, j).getValue() == 0 : "Cell at (" + i + "," + j + ") should be 0";
-                assert board.get(i, j).isLocked() == false : "Cell at (" + i + "," + j + ") should not be locked";
-            }
+        // Check if the correct number of arguments is provided
+        if (args.length != 1) {
+            System.out.println("Usage: java Board <filename>");
+            return;
         }
-        score += 2;
 
-        // Test set(int, int, int)
-        board.set(0, 0, 5);
-        assert board.get(0, 0).getValue() == 5 : "Cell (0,0) value should be 5";
-        score += 1;
-
-        // Test set(int, int, boolean) and isLocked 
-        board.set(1, 1, true);
-        assert board.get(1, 1).isLocked() == true : "Cell (1,1) should be locked";
-        assert board.isLocked(1, 1) == true : "isLocked method should return true for a locked cell";
-        score += 1;
-
-        // Test set(int, int, int, boolean)
-        board.set(2, 2, 7, true);
-        assert board.get(2, 2).getValue() == 7 : "Cell (2,2) value should be 7";
-        assert board.get(2, 2).isLocked() == true : "Cell (2,2) should be locked";
-        score += 1;
-
-        // Test numLocked method
-        int numLocked = board.numLocked();
-        assert numLocked == 2 : "numLocked should return 2";
-        score += 1;
-
-        // Test value(int, int)
-        assert board.value(0, 0) == 5 : "value method at (0,0) should be 5";
-        score += 1;
-
-        // Test toString method: first row should start with "5 0 0 0 0 0 0 0 0 \n"
-        String boardStr = board.toString();
-        String expectedRow0 = "5 0 0 0 0 0 0 0 0 \n";
-        assert boardStr.startsWith(expectedRow0) : "toString output is not as expected for the first row.";
-        score += 1;
-
-        System.out.println("All Board tests passed! Score: " + score + "/10");
+        // Check if board is valid
+        Board newBoard = new Board(args[0]);
+        if (newBoard.validSolution()) {
+            System.out.println("The board is a valid solution.");
+        } else {
+            System.out.println("The board is not a valid solution.");
+        }
+       
     }
 }
