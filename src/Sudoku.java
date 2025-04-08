@@ -8,7 +8,7 @@
 public class Sudoku {
     
     private Board board;
-    // private LandscapeDisplay display;
+    private LandscapeDisplay ld;
     private int delay;
 
     /**
@@ -19,7 +19,9 @@ public class Sudoku {
     public Sudoku(int numLocked, int delay){
         board = new Board(numLocked);
         this.delay = delay;
-        // display = new LandscapeDisplay(board);
+        if(delay > 0){
+            ld = new LandscapeDisplay(board);
+        }
     }
 
     /**
@@ -30,7 +32,9 @@ public class Sudoku {
     public Sudoku(String filename, int delay){
         board = new Board(filename);
         this.delay = delay;
-        // display = new LandscapeDisplay(board);
+        if(delay > 0){
+            ld = new LandscapeDisplay(board);
+        }
     }
 
     /**
@@ -90,6 +94,14 @@ public class Sudoku {
         }
 
         while (stack.size()<unspecifiedCells){
+            // Control the speed of visualization
+            if (delay > 0) {
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
             Cell next = findNextCell();
 
             while (next==null && stack.size()>0){
@@ -105,6 +117,7 @@ public class Sudoku {
             }
 
             if(next==null){
+                board.isFinished(true);
                 return false;
             }
             else {
@@ -112,15 +125,16 @@ public class Sudoku {
             }
         }
 
+        board.isFinished(true);
         return true;
     }
 
     public static void main(String[] args) {
-        Sudoku game =  new Sudoku(0,0);
+        Sudoku game =  new Sudoku(0,10);
         game.solve();
         System.out.println("Final (Solved) State: \n" + game.board.toString());
 
-        Sudoku game2 = new Sudoku("board2.txt", 0);
+        Sudoku game2 = new Sudoku("board1.txt", 10);
         System.out.println("Initial State: \n" + game2.board.toString());
         game2.solve();
         System.out.println("Final (Solved) State: \n" + game2.board.toString());
