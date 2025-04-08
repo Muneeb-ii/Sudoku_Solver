@@ -5,12 +5,15 @@
  * 
  */
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.io.*;
 import java.util.Random;
 
 public class Board {
     
     private Cell[][] board;
+    private boolean finished; 
 
     /**
      * Constructor for Board: creates a 9x9 board of cells and initializes them with value 0
@@ -50,7 +53,7 @@ public class Board {
         for (int i = 0; i < numLocked; i++) {
             int row = rand.nextInt(9);
             int col = rand.nextInt(9);
-            
+
             // Check if the cell is already locked
             while (board[row][col].isLocked()) {
                 row = rand.nextInt(9);
@@ -278,6 +281,27 @@ public class Board {
         }
 
         return true;
+    }
+
+    /**
+     * Draws the board on the given graphics context
+     * @param g the graphics context to draw on
+     * @param scale the scale factor to use for drawing
+     */
+    public void draw(Graphics g, int scale){
+        for(int i = 0; i<getRows(); i++){
+            for(int j = 0; j<getCols(); j++){
+                get(i, j).draw(g, j*scale+5, i*scale+10, scale);
+            }
+        } if(finished){
+            if(validSolution()){
+                g.setColor(new Color(0, 127, 0));
+                g.drawChars("Hurray!".toCharArray(), 0, "Hurray!".length(), scale*3+5, scale*10+10);
+            } else {
+                g.setColor(new Color(127, 0, 0));
+                g.drawChars("No solution!".toCharArray(), 0, "No Solution!".length(), scale*3+5, scale*10+10);
+            }
+        }
     }
 
     /*
