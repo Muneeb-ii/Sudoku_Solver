@@ -8,7 +8,7 @@
 public class Sudoku {
     
     private Board board;
-    private LandscapeDisplay display;
+    // private LandscapeDisplay display;
     private int delay;
 
     /**
@@ -19,7 +19,7 @@ public class Sudoku {
     public Sudoku(int numLocked, int delay){
         board = new Board(numLocked);
         this.delay = delay;
-        display = new LandscapeDisplay(board);
+        // display = new LandscapeDisplay(board);
     }
 
     /**
@@ -30,7 +30,7 @@ public class Sudoku {
     public Sudoku(String filename, int delay){
         board = new Board(filename);
         this.delay = delay;
-        display = new LandscapeDisplay(board);
+        // display = new LandscapeDisplay(board);
     }
 
     /**
@@ -42,7 +42,7 @@ public class Sudoku {
      */
     public int findNextValue(Cell cell) {
         for (int i = cell.getValue()+1; i <= 9; i++) {
-            if (board.validValue(cell.getCol(), cell.getRow(), i)) {
+            if (board.validValue(cell.getRow(), cell.getCol(), i)) {
                 return i;
             }
         }
@@ -58,7 +58,7 @@ public class Sudoku {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (board.value(i, j) == 0) { // found an empty cell
-                    int newValue = findNextValue(board.get(j, j));
+                    int newValue = findNextValue(board.get(i, j));
                     if (newValue != 0) {
                         board.set(i, j, newValue);
                         return board.get(i, j);
@@ -78,7 +78,16 @@ public class Sudoku {
      */
     public boolean solve(){
         LinkedList<Cell> stack = new LinkedList<Cell>();
-        int unspecifiedCells = (9*9) - board.numLocked();
+        int unspecifiedCells=0;
+
+        // Count the number of unspecified cells
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board.value(i, j) == 0) {
+                    unspecifiedCells++;
+                }
+            }
+        }
 
         while (stack.size()<unspecifiedCells){
             Cell next = findNextCell();
@@ -104,6 +113,17 @@ public class Sudoku {
         }
 
         return true;
+    }
+
+    public static void main(String[] args) {
+        Sudoku game =  new Sudoku(0,0);
+        game.solve();
+        System.out.println("Final (Solved) State: \n" + game.board.toString());
+
+        Sudoku game2 = new Sudoku("board2.txt", 0);
+        System.out.println("Initial State: \n" + game2.board.toString());
+        game2.solve();
+        System.out.println("Final (Solved) State: \n" + game2.board.toString());
     }
 }
 
