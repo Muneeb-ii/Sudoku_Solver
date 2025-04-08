@@ -27,7 +27,7 @@ public class Board {
      * Auxiliary Constructor for Board: creates a 9x9 board of cells and initializes them with value 0
      * @param filename the name of the file to read
      */
-    public Board (String filename){
+    public Board(String filename){
         // Call the default constructor to initialize the board
         this(); 
         // Read the file and set the values of the cells
@@ -160,6 +160,16 @@ public class Board {
             }
         }
         return count;
+    }
+
+    /**
+     * Returns the value of the cell at the given row and column
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     * @return the value of the cell at the given row and column
+     */
+    public int value(int row, int col){
+        return board[row][col].getValue();
     }
 
 }
