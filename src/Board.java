@@ -119,17 +119,21 @@ public class Board {
         }
         return stringRep;
     }
+    
+    /**
+     * Returns the number of columns in the board
+     * @return the number of columns in the board
+     */
+    public int getCols(){
+        return board[0].length;
+    }
 
-    public static void main (String[] args) {
-
-        // Check if the user provided a filename as an argument
-        if (args.length != 1) {
-            System.out.println("Usage: java Board <filename>");
-            return;
-        }
-        Board newBoard = new Board();
-        newBoard.read(args[0]);
-        System.out.println(newBoard);
+    /**
+     * Returns the number of rows in the board
+     * @return the number of rows in the board
+     */
+    public int getRows(){
+        return board.length;
     }
 
 }
