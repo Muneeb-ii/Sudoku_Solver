@@ -5,6 +5,9 @@
  * 
  */
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class Cell{
     
     private int rowIndex;
@@ -98,5 +101,18 @@ public class Cell{
      */
     public String toString(){
         return "Cell [rowIndex=" + rowIndex + ", columnIndex=" + columnIndex + ", value=" + value + ", locked=" + locked + "]";
+    }
+
+    /**
+     * Draws the cell on the given graphics context
+     * @param g the graphics context to draw on
+     * @param x the x coordinate to draw at
+     * @param y the y coordinate to draw at
+     * @param scale the scale factor to use for drawing
+     */
+    public void draw(Graphics g, int x, int y, int scale){
+        char toDraw = (char) ((int) '0' + getValue());
+        g.setColor(isLocked()? Color.BLUE : Color.RED);
+        g.drawChars(new char[] {toDraw}, 0, 1, x, y);
     }
 }
