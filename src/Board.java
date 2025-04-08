@@ -64,6 +64,18 @@ public class Board {
     }
 
     /**
+     * Sets the value and locked property of the cell at the given row and column
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     * @param value the value to set
+     * @param locked whether the cell is locked or not
+     */
+    public void set(int row, int col, int value, boolean locked){
+        board[row][col].setValue(value);
+        board[row][col].setLocked(locked);
+    }
+
+    /**
      * Reads a file and sets the values of the cells in the board accordingly
      * @param filename the name of the file to read
      * @return true if the file was read successfully, false otherwise
