@@ -184,6 +184,51 @@ public class Board {
         return board[row][col].getValue();
     }
 
+    /**
+     * Checks if the given value is valid for the cell at the given row and column
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     * @param value the value to check
+     * @return true if the value is valid, false otherwise
+     */
+    public boolean validValue(int row, int col, int value){
+        // Check if the value is between 1 and 9
+        if (value<1 || value>9){
+            return false;
+        }
+        
+        // Check if the cell if the value is already in the row or column
+        for(int i = 0; i<9; i++){
+            if(board[row][i].getValue()==value && i!=col){
+                return false;
+            }
+        }
+        for(int i = 0; i<9; i++){
+            if(board[i][col].getValue()==value && i!=row){
+                return false;
+            }
+        }
+
+        int localRow = row/3; // use integer division to get the local row (0, 1, or 2)
+        int localCol = col/3; // use integer division to get the local column (0, 1, or 2)
+
+        // Check if the value is already in the 3x3 box
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 3; j++){
+                int curRow = i + (3 * localRow);
+                int curCol = j + (3 * localCol);
+                // Skip the candidate cell
+                if (curRow == row && curCol == col) {
+                    continue;
+                }
+                if (board[curRow][curCol].getValue() == value) {
+                    return false;
+                }
+            }
+}
+        return true;
+    }
+
     /*
      * Added main method to run tests for Board class methods (except read method).
      * The tests use assert statements and sums a score as follows:
