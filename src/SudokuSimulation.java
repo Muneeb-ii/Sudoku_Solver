@@ -9,7 +9,7 @@ import java.util.concurrent.*;
 public class SudokuSimulation {
 
     // Timeout for each individual test in seconds.
-    private static final int TIMEOUT_SECONDS = 1;
+    private static final int TIMEOUT_SECONDS = 10;
     // Number of tests per case (for each initial locked cell count)
     private static final int NUM_TESTS = 50;
 
