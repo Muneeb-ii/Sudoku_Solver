@@ -44,30 +44,18 @@ public class Board {
      * and randomly locks numLocked cells
      * @param numLocked the number of cells to lock
      */
-    public Board(int numLocked){
-        // Call the default constructor to initialize the board
-        this(); 
-
-        Random rand = new Random();
-
-        // Randomly lock numLocked cells
+    public Board(int numLocked) {
+        this();
+        Random r = new Random();
         for (int i = 0; i < numLocked; i++) {
-            int row = rand.nextInt(9);
-            int col = rand.nextInt(9);
-
-            // Check if the cell is already locked
-            while (board[row][col].isLocked()) {
-                row = rand.nextInt(9);
-                col = rand.nextInt(9);
-            }
-            
-            // Generate a random value between 1 and 9
-            int value = rand.nextInt(8)+1;
-            while (!validValue(row, col, value)) {
-                value = rand.nextInt(8)+1;
-            }
-            board[row][col].setValue(value);
-            board[row][col].setLocked(true);
+          int randomRow = r.nextInt(9);
+          int randomCol = r.nextInt(9);
+          int randomValue = r.nextInt(9) + 1;
+          if (board[randomRow][randomCol].getValue() == 0 && validValue(randomRow, randomCol, randomValue)) {
+            this.set(randomRow, randomCol, randomValue);
+            this.set(randomRow, randomCol, true);
+          } else
+            i--;
         }
     }
 
