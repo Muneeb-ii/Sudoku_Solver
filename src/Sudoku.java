@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 /**
  * Author: Muneeb Azfar Nafees
  * 
@@ -73,7 +75,6 @@ public class Sudoku {
                 }
             }
         }
-        board.setFinished(true);
         return null; // No empty cells found
     }
 
@@ -140,8 +141,9 @@ public class Sudoku {
      * @return true if the puzzle is solved, false otherwise
      */
     public boolean solve(){
-        LinkedList<Cell> stack = new LinkedList<Cell>();
+        LinkedList<Cell> stack = new LinkedList<>();
         int unspecifiedCells=0;
+        int iterations = 0;
 
         // Count the number of unspecified cells
         for (int i = 0; i < 9; i++) {
@@ -151,19 +153,21 @@ public class Sudoku {
                 }
             }
         }
-        while (stack.size()<unspecifiedCells){
+        
+        while (stack.size() < unspecifiedCells){ // Count the number of unspecified cells
             // Control the speed of visualization
             if (delay > 0) {
                 try {
                     Thread.sleep(delay);
-                } catch (InterruptedException e) {
+                } 
+                catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
                 ld.repaint();
             }
             Cell next = findNextCell();
 
-            while (next==null && stack.size()>0){
+            while (next==null && !stack.isEmpty()){
                 Cell previous = stack.pop();
                 // Update the cell's value by trying the next candidate
                 int newValue = findNextValue(previous);
@@ -171,6 +175,11 @@ public class Sudoku {
                 previous.setValue(newValue);
                 if (previous.getValue()!=0){
                     next = previous;
+                }
+                iterations++;
+                if (iterations>100000000) {
+                    board.setFinished(true);
+                    return true;
                 }
 
             }
@@ -192,8 +201,9 @@ public class Sudoku {
      * @return true if the puzzle is solved, false otherwise
      */
     public boolean solve2(){
-        LinkedList<Cell> stack = new LinkedList<Cell>();
+        LinkedList<Cell> stack = new LinkedList<>();
         int unspecifiedCells=0;
+        int iterations = 0;
 
         // Count the number of unspecified cells
         for (int i = 0; i < 9; i++) {
@@ -203,19 +213,21 @@ public class Sudoku {
                 }
             }
         }
-        while (stack.size()<unspecifiedCells){
+        
+        while (stack.size() < unspecifiedCells){ // Count the number of unspecified cells
             // Control the speed of visualization
             if (delay > 0) {
                 try {
                     Thread.sleep(delay);
-                } catch (InterruptedException e) {
+                } 
+                catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
                 ld.repaint();
             }
             Cell next = findNextCell2();
 
-            while (next==null && stack.size()>0){
+            while (next==null && !stack.isEmpty()){
                 Cell previous = stack.pop();
                 // Update the cell's value by trying the next candidate
                 int newValue = findNextValue(previous);
@@ -223,6 +235,11 @@ public class Sudoku {
                 previous.setValue(newValue);
                 if (previous.getValue()!=0){
                     next = previous;
+                }
+                iterations++;
+                if (iterations>100000000) {
+                    board.setFinished(true);
+                    return true;
                 }
 
             }
@@ -249,6 +266,11 @@ public class Sudoku {
         System.out.println("Initial State: \n" + game2.board.toString());
         game2.solve();
         System.out.println("Final (Solved) State: \n" + game2.board.toString());
+
+        Sudoku game3 = new Sudoku("unsolvable.txt", 10);
+        System.out.println("Initial State: \n" + game3.board.toString());
+        game3.solve();
+        System.out.println("Final (Solved) State: \n" + game3.board.toString());
     }
 }
 
