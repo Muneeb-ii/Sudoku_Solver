@@ -261,16 +261,6 @@ public class Sudoku {
         System.out.println("Initial State: \n" + game.board.toString());
         game.solve();
         System.out.println("Final (Solved) State: \n" + game.board.toString());
-
-        Sudoku game2 = new Sudoku("board1.txt", 10);
-        System.out.println("Initial State: \n" + game2.board.toString());
-        game2.solve();
-        System.out.println("Final (Solved) State: \n" + game2.board.toString());
-
-        Sudoku game3 = new Sudoku("unsolvable.txt", 10);
-        System.out.println("Initial State: \n" + game3.board.toString());
-        game3.solve();
-        System.out.println("Final (Solved) State: \n" + game3.board.toString());
     }
 }
 
