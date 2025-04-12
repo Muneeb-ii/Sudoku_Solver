@@ -117,6 +117,116 @@ public class SudokuExt {
     }
 
     /**
+     * Finds the next cell to fill using the minimum remaining values heuristic and the degree heuristic.
+     * It looks for the empty cell (value 0) that has the fewest valid candidate values
+     * and the most constraints (degree).
+     * If a valid candidate is found using findNextValue, the cell is updated and returned.
+     * If no valid candidate exists for that cell, returns null.
+     * @return the cell with the next value or null if no valid cell is found.
+     */
+    public Cell findNextCell3(){
+        Cell bestCell = null;
+        int bestCandidateCount = 10; // since maximum candidates is 9
+        int bestDegree = -1; // to track the cell with the most constraints
+
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++){
+                if(board.value(i, j) == 0){ // For each empty cell
+                    int candidateCount = countCandidates(i, j);
+                    int degree = countNeighbouringEmptyCells(i, j); // Get the degree of the cell
+                    if(candidateCount < bestCandidateCount || (candidateCount == bestCandidateCount && degree > bestDegree)){
+                        bestCandidateCount = candidateCount;
+                        bestDegree = degree;
+                        bestCell = board.get(i, j);
+                    }
+                }
+            }
+        }
+        // If no empty cell is found, return null
+        if (bestCell == null) {
+            return null;
+        }
+        
+        // Try to get the next valid candidate for this cell.
+        int candidate = findNextValue(bestCell);
+        if (candidate != 0) {
+            board.set(bestCell.getRow(), bestCell.getCol(), candidate);
+            return board.get(bestCell.getRow(), bestCell.getCol());
+        }
+        
+        return null;
+    }
+
+    /**
+     * Helper method to count the number of neighbouring empty cells for a given cell.
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     * @return the count of neighbouring empty cells
+     */
+    private int countNeighbouringEmptyCells(int row, int col) {
+        int count = 0;
+        if(row == 0 && col == 0){
+            if(board.value(0, 1) == 0) count++;
+            if(board.value(1, 0) == 0) count++;
+            if(board.value(1, 1) == 0) count++;
+        }
+        else if(row == 0 && col == 8){
+            if(board.value(0, 7) == 0) count++;
+            if(board.value(1, 8) == 0) count++;
+            if(board.value(1, 7) == 0) count++;
+        }
+        else if(row == 8 && col == 0){
+            if(board.value(8, 1) == 0) count++;
+            if(board.value(7, 0) == 0) count++;
+            if(board.value(7, 1) == 0) count++;
+        }
+        else if(row == 8 && col == 8){
+            if(board.value(8, 7) == 0) count++;
+            if(board.value(7, 8) == 0) count++;
+            if(board.value(7, 7) == 0) count++;
+        }
+        else if(row == 0){
+            if(board.value(0, col-1) == 0) count++;
+            if(board.value(0, col+1) == 0) count++;
+            if(board.value(1, col-1) == 0) count++;
+            if(board.value(1, col) == 0) count++;
+            if(board.value(1, col+1) == 0) count++;
+        }
+        else if(row == 8){
+            if(board.value(8, col-1) == 0) count++;
+            if(board.value(8, col+1) == 0) count++;
+            if(board.value(7, col-1) == 0) count++;
+            if(board.value(7, col) == 0) count++;
+            if(board.value(7, col+1) == 0) count++;
+        }
+        else if(col == 0){
+            if(board.value(row-1, 0) == 0) count++;
+            if(board.value(row+1, 0) == 0) count++;
+            if(board.value(row-1, 1) == 0) count++;
+            if(board.value(row, 1) == 0) count++;
+            if(board.value(row+1, 1) == 0) count++;
+        }
+        else if(col == 8){
+            if(board.value(row-1, 8) == 0) count++;
+            if(board.value(row+1, 8) == 0) count++;
+            if(board.value(row-1, 7) == 0) count++;
+            if(board.value(row, 7) == 0) count++;
+            if(board.value(row+1, 7) == 0) count++;
+        }
+        else{
+            if(board.value(row-1, col-1) == 0) count++;
+            if(board.value(row-1, col) == 0) count++;
+            if(board.value(row-1, col+1) == 0) count++;
+            if(board.value(row, col-1) == 0) count++;
+            if(board.value(row, col+1) == 0) count++;
+            if(board.value(row+1, col-1) == 0) count++;
+            if(board.value(row+1, col) == 0) count++;
+            if(board.value(row+1, col+1) == 0) count++;
+        }
+        return count;
+    }
+
+    /**
      * Helper method to count the number of valid candidates for the cell at (row, col).
      * Iterates through values 1 to 9 and checks if they are valid at this position.
      *
@@ -132,6 +242,66 @@ public class SudokuExt {
             }
         }
         return count;
+    }
+
+    /**
+     * Solves the Sudoku puzzle using MRV and degree heuristics
+     * @return true if the puzzle is solved, false otherwise
+     */
+    public boolean solve3(){
+        LinkedList<Cell> stack = new LinkedList<>();
+        int unspecifiedCells=0;
+        int iterations = 0;
+
+        // Count the number of unspecified cells
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board.value(i, j) == 0) {
+                    unspecifiedCells++;
+                }
+            }
+        }
+        
+        while (stack.size() < unspecifiedCells){ // Count the number of unspecified cells
+            // Control the speed of visualization
+            if (delay > 0) {
+                try {
+                    Thread.sleep(delay);
+                } 
+                catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+                ld.repaint();
+            }
+            Cell next = findNextCell3();
+
+            while (next==null && !stack.isEmpty()){
+                Cell previous = stack.pop();
+                // Update the cell's value by trying the next candidate
+                int newValue = findNextValue(previous);
+                // Update the cell accordingly
+                previous.setValue(newValue);
+                if (previous.getValue()!=0){
+                    next = previous;
+                }
+                iterations++;
+                if (iterations>100000000) {
+                    board.setFinished(true);
+                    return true;
+                }
+
+            }
+
+            if(next==null){
+                board.setFinished(true);
+                return false;
+            }
+            else {
+                stack.push(next);
+            }
+        }
+        board.setFinished(true);
+        return true;
     }
     
     /**
