@@ -2,12 +2,14 @@
  * Author : Muneeb Azfar Nafees
  * 
  * Purpose of class: Test the Board class
+ * 
+ * How to run: java -ea BoardTests
  */
 
 public class BoardTests {
     
     public static void main(String[] args) {
-        System.out.println("All Board tests passed! Score: " + testBoard() + "/12");
+        System.out.println("All Board tests passed! Score: " + testBoard() + "/14");
     }
 
     public static int testBoard() {
@@ -36,7 +38,6 @@ public class BoardTests {
         // Test set(int, int, boolean) and isLocked 
         board.set(1, 1, true);
         assert board.get(1, 1).isLocked() == true : "Cell (1,1) should be locked";
-        assert board.isLocked(1, 1) == true : "isLocked method should return true for a locked cell";
         score += 1;
 
         // Test set(int, int, int, boolean)
@@ -54,10 +55,21 @@ public class BoardTests {
         assert board.value(0, 0) == 5 : "value method at (0,0) should be 5";
         score += 1;
 
+        // Test isLocked(int, int)
+        assert board.isLocked(1, 1) == true : "isLocked method at (1,1) should return true";
+        assert board.isLocked(0, 0) == false : "isLocked method at (0,0) should return false";
+        score += 1;
+
         // Test toString method: first row should start with "5 0 0 0 0 0 0 0 0 \n"
         String boardStr = board.toString();
         String expectedRow0 = "5 0 0 0 0 0 0 0 0 \n";
         assert boardStr.startsWith(expectedRow0) : "toString output is not as expected for the first row.";
+        score += 1;
+
+        // Test readFile method
+        Board fileBoard = new Board("board1.txt");
+        assert fileBoard.get(0, 3).getValue() == 3 : "Cell (0,3) value should be 3 from file";
+        assert fileBoard.get(0, 3).isLocked() == true : "Cell (0,3) should be locked from file";
         score += 1;
 
         // Test validSolution method
