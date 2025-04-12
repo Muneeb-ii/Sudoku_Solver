@@ -53,7 +53,7 @@ public class Board {
           int randomValue = r.nextInt(9) + 1;
           if (board[randomRow][randomCol].getValue() == 0 && validValue(randomRow, randomCol, randomValue)) {
             this.set(randomRow, randomCol, randomValue);
-            this.set(randomRow, randomCol, true);
+            this.get(randomRow, randomCol).setLocked(true);
           } else
             i--;
         }
@@ -139,6 +139,13 @@ public class Board {
                 for(int i = 0; i < arr.length; i++) {
                     // set the value of the cell at row j and column i to the value in arr[i]
                     board[j][i].setValue( Integer.parseInt(arr[i]) );
+                    // set the locked property of the cell at row j and column i to true if arr[i] is not 0, false otherwise
+                    if (Integer.parseInt(arr[i]) != 0){
+                        board[j][i].setLocked( true );
+                    }
+                    else{
+                        board[j][i].setLocked( false );
+                    }
                 }
                 // assign to line the result of calling the readLine method of your BufferedReader object.
                 line = br.readLine();
