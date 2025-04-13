@@ -50,17 +50,18 @@ The project includes automated experiments to answer key questions:
    cd Sudoku_Solver
 2. Compile the Project:
 To compile all necessary files, run:
+
    ```bash
    javac *.java
-3. Run the Solver:
-To run the basic solver simulation:
+4. Run the Solver:
+To run the solver simulations:
    ```bash
    java SudokuSimulation
-   For the extended simulation with the MRV+Degree heuristic, use:
-   ```bash
    java SudokuSimulationExt
-4. Visualization:
+
+6. Visualization:
 If you want to see the graphical display while solving, run the appropriate simulation with a non-zero delay:
+
    ```bash
    java Sudoku
 
